@@ -1,0 +1,41 @@
+class Counter:
+    id : str   
+    _items: dict[str, list[int, float]]   #<- suggested, you can change this
+  
+    def __init__(self, ID: str):
+        '''creates a new counter with a given ID'''
+        self.id = ID
+        self._items = {}
+  
+    def add(self, item_name: str, amount: int, price_of_unit: float)-> None:
+        '''Adds amount of items with item_name and specifies price_of_unit. You can assume that every addition for the same item_name will have the same price_of_unit.'''
+        if item_name not in self._items:
+            self._items[item_name] = [amount, price_of_unit]
+        else:
+            self._items[item_name][0] += amount
+            
+    def remove(self, item_name: str, amount: int)->None:
+        '''Removes the given amount of items with the given item name.'''  
+        self._items[item_name][0] -= amount
+        
+    def reset(self):
+        '''Removes all the records of items previously added.'''
+        self._items = {}
+        
+    def get_total(self)-> float:
+        '''Returns the total sum rounded to two digits after decimal point .'''
+        total = 0.0
+        for item in self._items:
+            sub_total = self._items[item][0] * self._items[item][1]
+            total += sub_total
+        return total
+        
+    def status(self)-> str:    
+        '''Returs string of form "Id N M", where Id is id of counter, N is total amount of all items and M total price of them rounded to two digits after decimal point (with both digits printed).'''
+        N = 0
+        for item in self._items:
+            N += self._items[item][0]
+        total = self.get_total
+        status = f"{self.id} {N} {total:0.2f}"
+        return status
+        
